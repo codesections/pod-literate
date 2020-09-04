@@ -1,0 +1,6 @@
+use Test;
+use Pod::Literate;
+
+pass "replace me";
+
+done-testing;
