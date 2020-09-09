@@ -2,9 +2,12 @@ unit grammar Pod::Literate:ver<0.0.1>;
 
 token TOP { [ <pod> | <code> ]* }
 
-token pod  { ^^  '=begin' <.ws> (\w+)
-             .*? '=end'   <.ws> $0 \N* \n}
+token pod  { ^^  '=begin' <.ws> (\w+) \N* \n
+                 [<pod> || <line> ]* 
+                 '=end'   <.ws> $0 \N* \n }
 token code { [ ^^ <![=]> \N* \n]+ }
+
+token line { <![=]> \N*? \n}
 
 =begin pod
 
@@ -26,8 +29,9 @@ Pod::Literate.parsefile($filename.IO);
 Pod::Literate is an extremely simple library for parsing Raku source files into Pod blocks
 and Code blocks (i.e., everything that isn't a Pod block).  The goal of doing so is to
 support basic L<literate programming|https://en.wikipedia.org/wiki/Literate_programming>
-in Raku.  Pod::Literate is intended to be used with Pod::Weave::To::$format and/or
-Pod::Tangle.
+in Raku.  You probably don't need to use Pod::Literate directly; instead, you can use it
+through L<Pod::Weave|https://github.com/codesections/pod-weave/> and/or
+L<Pod::Tangle|https://github.com/codesections/pod-tangle>.
 
 For additional details, please see the announcement blog post:
 L<www.codesections.com/blog/weaving-raku|https://www.codesections.com/blog/weaving-raku>.

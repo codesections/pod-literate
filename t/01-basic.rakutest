@@ -1,6 +1,43 @@
 use Test;
+use lib 'lib';
 use Pod::Literate;
 
-pass "replace me";
+ok(Pod::Literate.parse("=begin pod\n Hello, world! \n=end pod\n"), "simple pod6");
+
+ok(Pod::Literate.parse(q:to/EOF/), 'longer pod6');
+=begin pod
+This is text that goes on for a while and
+has some I<internal> formatting.
+=end pod
+
+my $foo = 42
+EOF
+
+ok(Pod::Literate.parse(q:to/EOF/), 'pod6 with code block');
+=begin pod
+Here is an example of Pod6:
+
+=begin code :lang<raku>
+my $foo = 42;
+say $foo;
+=end code
+
+=end pod
+EOF
+
+ok(Pod::Literate.parse(q:to/EOF/), 'pod6 with nested Pod6 block');
+=begin pod
+Here is an example of Pod6:
+
+=begin code :lang<raku>
+=begin pod2
+Hello, B<world>!
+=end pod2
+=end code
+
+=end pod
+EOF
+
+ok(Pod::Literate.parsefile('t-input/01-blogpost.raku'.IO), 'Full blogpost');
 
 done-testing;

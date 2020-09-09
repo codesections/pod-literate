@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/codesections/pod-literate/workflows/test/badge.svg)](https://github.com/codesections/pod-literate/actions)
+
 NAME
 ====
 
