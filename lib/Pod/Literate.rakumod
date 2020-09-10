@@ -1,13 +1,17 @@
 unit grammar Pod::Literate:ver<0.0.1>;
 
-token TOP { [ <pod> | <code> ]* }
+token TOP {[ <pod> | <code> ]* }
 
 token pod  { ^^  '=begin' <.ws> (\w+) \N* \n
-                 [<pod> || <line> ]* 
+                 [<pod> || <non-pod-line> || <pod-paragraph-line> || <pod-abbreviated-block-line> ]*
                  '=end'   <.ws> $0 \N* \n }
 token code { [ ^^ <![=]> \N* \n]+ }
 
-token line { <![=]> \N*? \n}
+token non-pod-line { <![=]> \N*? \n}
+
+token pod-paragraph-line { '=for' *\N \n }
+
+token pod-abbreviated-block-line { '=' <!before end> }
 
 =begin pod
 

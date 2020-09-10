@@ -25,7 +25,7 @@ say $foo;
 =end pod
 EOF
 
-ok(Pod::Literate.parse(q:to/EOF/), 'pod6 with nested Pod6 block');
+ok(Pod::Literate.parse(q:to/EOF/), 'pod6 with nested delemited Pod6 block');
 =begin pod
 Here is an example of Pod6:
 
@@ -38,6 +38,14 @@ Hello, B<world>!
 =end pod
 EOF
 
+ok(Pod::Literate.parse(q:to/EOF/), 'pod6 with =head block');
+=begin pod
+=head2 First Header
+=end pod
+EOF
+
 ok(Pod::Literate.parsefile('t-input/01-blogpost.raku'.IO), 'Full blogpost');
+
+
 
 done-testing;
