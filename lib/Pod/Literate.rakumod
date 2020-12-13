@@ -4,8 +4,8 @@ token TOP {[ <pod> | <code> ]* }
 
 token pod  { ^^  '=begin' <.ws> (\w+) \N* \n
                  [<pod> || <non-pod-line> || <pod-paragraph-line> || <pod-abbreviated-block-line> ]*
-                 '=end'   <.ws> $0 \N* \n }
-token code { [ ^^ <![=]> \N* \n]+ }
+                 '=end'   <.ws> $0 \N* \n? }
+token code { [ ^^ <![=]> \N* \n?]+ }
 
 token non-pod-line { <![=]> \N*? \n}
 
